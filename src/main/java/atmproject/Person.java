@@ -1,11 +1,13 @@
 package atmproject;
 
+import com.opencsv.bean.CsvBindByPosition;
 import lombok.*;
 import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.data.annotation.Id;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,29 +17,30 @@ import javax.validation.constraints.NotBlank;
 public class Person {
 
     @Id
+    @NotEmpty(message = "Id must not be empty")
     protected String Id;
 
-    @NotBlank(message = "username must not be empty")
+    @NotEmpty(message = "username must not be empty")
     @UniqueElements(message = "username must be unique")
     protected String Username;
 
     protected String Password;
 
-    @NotBlank(message="name must not be empty.")
+    @NotEmpty(message="name must not be empty.")
     protected String Name;
 
-    @NotBlank(message="surname must not be empty.")
+    @NotEmpty(message="surname must not be empty.")
     protected String Surname;
 
-    @NotBlank(message="Date of Birth must not be empty.")
+    @NotEmpty(message="Date of Birth must not be empty.")
     protected String DateOfBirth;
 
 
-    @NotBlank(message="phone number must not be empty.")
+    @NotEmpty(message="phone number must not be empty.")
     protected String PhoneNumber;
 
 
-    @NotBlank(message="email address must not be empty.")
+    @NotEmpty(message="email address must not be empty.")
     protected String EmailAddress;
 
 }

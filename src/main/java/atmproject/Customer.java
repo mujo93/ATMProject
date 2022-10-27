@@ -41,8 +41,24 @@ public class Customer extends Person{
         this.Balance=initialBalance;
     }
 
+    public Customer(String Id,String username,String password,
+                    String name, String surname, String phoneNumber,
+                    String emailAddress, String dateOfBirth, String accountNumber,double balance)
+    {
+        this.Id=Id;
+        this.Username=username;
+        this.Password=password;
+        this.Name=name;
+        this.Surname=surname;
+        this.PhoneNumber=phoneNumber;
+        this.EmailAddress=emailAddress;
+        this.DateOfBirth=dateOfBirth;
+        this.AccountNumber=accountNumber;
+        this.Balance=balance;
+    }
+
     public String getFullName(){
-        return this.getFullName();
+        return this.Name+" "+this.Surname;
     }
 
     public void displayBalance(){

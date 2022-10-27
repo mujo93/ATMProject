@@ -150,7 +150,6 @@ public final class Main {
         double initialBalance=Double.parseDouble(scanner.next());
         admin.createCustomer(username,password,name,surname,DOB,phoneNumber,email,initialBalance);
     }
-
     //Case sensitive
     public static Person login(int DBType) throws FileNotFoundException {
         String DBname= DBType == 1 ? "AdminDB.csv" : "CustomerDB.csv";
@@ -161,12 +160,12 @@ public final class Main {
             String username = newInput().trim();
             System.out.print("password: ");
             String password = newInput().trim();
-            List<String> admin= FileClass.fetchRecordFromCSVFile(DBname,username,password);
-            if(admin.size()!=0){
+            List<String> person= FileClass.fetchRecordFromCSVFile(DBname,username,password);
+            if(person.size()!=0){
                 if(DBType==1)
-                    result= new Admin(admin.get(0), admin.get(1), admin.get(2), admin.get(3), admin.get(4), admin.get(5), admin.get(6));
+                    result= new Admin(person.get(0), person.get(1), person.get(2), person.get(3), person.get(4), person.get(5), person.get(6));
                 else if (DBType==2)
-                    result= new Customer(admin.get(0), admin.get(1), admin.get(2), admin.get(3), admin.get(4), admin.get(5), admin.get(6),Double.parseDouble(admin.get(7)));
+                    result= new Customer(person.get(0),person.get(1), person.get(2), person.get(3), person.get(4), person.get(5), person.get(6), person.get(7),person.get(8),Double.parseDouble(person.get(9)));
                 break;
             }
             attemp--;
@@ -181,7 +180,6 @@ public final class Main {
         return result;
 
     }
-
     public static int getUserInput(){
         int selectedOption=-1;
         boolean notSelected=true;
@@ -202,12 +200,10 @@ public final class Main {
         }
         return selectedOption;
     }
-
     public static String newInput(){
         Scanner scanner=new Scanner(System.in);
         return scanner.next();
     }
-
     public static void paraGoruntule(Customer customer){
 
         System.out.println("Hesabinizda bulununan Bakiyeniz:");
@@ -217,7 +213,6 @@ public final class Main {
        // FileClass.appendLineToFile(transactionSummary, customer.getFullName());
 
     }
-
     public static void paraYatir(Customer customer){
         System.out.println("Lutfen yatiracaginiz para miktarini giriniz: ");
 
@@ -235,7 +230,6 @@ public final class Main {
             System.out.println("Lutfen rakam giriniz:");
         }
     }
-
     public static void paraCek(Customer customer){
         System.out.println("Lutfen cekeceginiz miktari giriniz: ");
         try {
@@ -268,7 +262,6 @@ public final class Main {
             System.out.println("Lutfen rakam giriniz:");
         }
     }
-
     public static void EFTYap(Customer customer){
         System.out.println("Lutfen havale yapacaginiz hesabin IBAN numarasini giriniz: ");
         String IBAN=newInput();
@@ -286,7 +279,6 @@ public final class Main {
             System.out.println("Lutfen rakam giriniz:");
         }
     }
-
     public static void cikis(){
         System.out.println("Cikis yapiliyor...");
         try {
@@ -297,13 +289,11 @@ public final class Main {
         }
         System.exit(0);
     }
-
     public static String createTransactionLine(String transactionDesc, double amount,double balance){
         String line=String.format("%20s | %5.2f | %.2f | %s",transactionDesc,amount,balance,createdDate());
 
         return line;
     }
-
     public static String createdDate(){
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();

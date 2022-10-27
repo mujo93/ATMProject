@@ -7,6 +7,7 @@ import javax.management.relation.Role;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -38,27 +39,46 @@ public class Admin extends Person {
         Customer newCustomer= new Customer(username,password,name,surname,dateOfBirth,
                                            phoneNumber,email,initialBalance);
         String customerDBPath=Paths.DBFolder_PATH+"CustomerDB.csv";
-        FileClass.appendRecordToCSVFile(customerDBPath,newCustomer);
+        saveCustomer(customerDBPath,newCustomer);
         createCustomerTransactionFile(newCustomer);
+
         return newCustomer;
+    }
+
+
+    public static void saveCustomer(String filePath,Customer nCus){
+        try {
+            File file = new File(filePath);
+            try (FileWriter writer = new FileWriter(file,true)) {
+
+                String[] customerRecord= new String[]{nCus.getId(), nCus.getUsername(),nCus.getName(),
+                        nCus.getSurname(), nCus.getPhoneNumber(),nCus.getEmailAddress(),nCus.getDateOfBirth(),
+                        nCus.getAccountNumber(), String.valueOf(nCus.getBalance())};
+
+                CSVWriter csvWriter = new CSVWriter(writer);
+                csvWriter.writeNext(customerRecord);
+            }
+        }
+        catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
 
     public static void createCustomerTransactionFile(Customer newCustomer) {
         String path=Paths.CustomerTransactionsFolder_PATH+newCustomer.getName()+"_"+newCustomer.getSurname()+".csv";
-
         try {
             File file = new File(path);
 
             // true if file does no exist and was created successfully.
             // false if file is already exists
             if (file.createNewFile()) {
-
             } else {
                 System.out.println("File already exists.");
             }
-
             try (FileWriter writer = new FileWriter(file)) {
+
                 String[] firstTransaction= new String[]{newCustomer.getName()+" "+ newCustomer.getSurname(), "The bank account has been opened","0",
                         String.format(String.valueOf(newCustomer.getBalance())),AtmUtility.getCurrentDate()};
                 CSVWriter csvWriter = new CSVWriter(writer);
@@ -88,11 +108,12 @@ public class Admin extends Person {
     }
 
     public static void main(String[] args) throws IOException {
-/*        String path="/Users/mucahitbayrak/IdeaProjects/airties-mujo93/src/main/java/" +
-                "atmproject/Database/Transactions/Mucahit.csv";
+       String path="/Users/mucahitbayrak/IdeaProjects/airties-mujo93/src/main/java/" +
+                "atmproject/Database/CustomerDB.csv";
         System.out.println(System.getProperty("user.home"));
-        File file =new File(path);
-        file.createNewFile();*/
+        saveCustomer(path,new Customer("123142","Mucahit","12343","Mucahit","Bayrak",
+                "05527774366","mchdbyrk@gmail.com","17/11/1993","1000",1000));
+
     }
 
 
