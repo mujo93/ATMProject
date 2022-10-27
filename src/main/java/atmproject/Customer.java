@@ -29,6 +29,17 @@ import java.util.UUID;
 @Setter
 public class Customer extends Person{
 
+    public static final String RESET = "\u001B[0m";
+    public static final String BLACK = "\u001B[30m";
+    public static final String RED = "\u001B[31m";
+    public static final String GREEN = "\u001B[32m";
+    public static final String YELLOW = "\u001B[33m";
+    public static final String BLUE = "\u001B[34m";
+    public static final String PURPLE = "\u001B[35m";
+    public static final String CYAN = "\u001B[36m";
+    public static final String WHITE = "\u001B[37m";
+    public static final String SUCCES_MESSAGE = GREEN+"Isleminiz Basariya Gerceklestirildi";
+
     private double Balance;
     private String AccountNumber;
 
@@ -81,7 +92,7 @@ public class Customer extends Person{
             this.setBalance(balance);
             String action="adding deposits.";
             appendRecordToTransactionFile(customer,action,amount);
-            System.out.println("Isleminiz basariyla gerceklestirildi.");
+            System.out.println(SUCCES_MESSAGE);
             System.out.println("Mevcut bakiyeniz: "+this.getBalance());
         }
         catch (AmountLessThanZero e){
@@ -89,39 +100,45 @@ public class Customer extends Person{
         }
     }
 
-    public void withdraw(double amount){
-        if(amount<this.getBalance()){
-            double balance=this.getBalance()-amount;
-            this.setBalance(balance);
-            System.out.println("Mevcut bakiyeniz: "+this.getBalance());
+    public void withdraw(double amount,Customer customer){
+        double balance=findBalance(customer);
+        if(amount<balance){
+            this.setBalance(balance-amount);
+            String action="withdrawing deposits.";
+            appendRecordToTransactionFile(customer,action,amount);
+            System.out.println(SUCCES_MESSAGE);
+            System.out.println(RED+"Mevcut bakiyeniz: "+this.getBalance());
         }
         else
-            System.out.println("Bu işlem için yetersiz bakiyeniz var.");
+            System.out.println(RED+"Bu işlem için yetersiz bakiyeniz var.");
     }
 
-    public void transfer(double amount, String IBAN){
-
-        if(amount<this.getBalance()){
-            double balance=this.getBalance()-amount;
-            this.setBalance(balance);
-            System.out.println("Mevcut bakiyeniz: "+this.getBalance());
-            AtmUtility.sendMail();
+    public void transfer(Customer customer,double amount, String IBAN){
+        double balance=findBalance(customer);
+        if(amount<balance){
+            this.setBalance(balance-amount);
+            String action="withdrawing deposits.";
+            appendRecordToTransactionFile(customer,action,amount);
+            System.out.println(SUCCES_MESSAGE);
+            System.out.println(YELLOW+amount+"TL "+IBAN+" no`lu hesaba gonderilmistir.");
+            System.out.println(RED+"Mevcut bakiyeniz: "+this.getBalance());
         }
         else
-            System.out.println("Bu işlem için yetersiz bakiyeniz var. Lutfen yeterli bakiyeye ulastiginizda tekrar deneyin.");
-
+            System.out.println(RED+"Bu işlem için yetersiz bakiyeniz var.");
     }
 
-    public void doEFT(double amount, String IBAN){
-
-        if(amount<this.getBalance()){
-            double balance=this.getBalance()-amount;
-            this.setBalance(balance);
-            System.out.println("Mevcut bakiyeniz: "+this.getBalance());
-            AtmUtility.sendMail();
+    public void doEFT(Customer customer,double amount, String IBAN){
+        double balance=findBalance(customer);
+        if(amount<balance){
+            this.setBalance(balance-amount);
+            String action="withdrawing deposits.";
+            appendRecordToTransactionFile(customer,action,amount);
+            System.out.println(SUCCES_MESSAGE);
+            System.out.println(YELLOW+amount+"TL "+IBAN+" no`lu hesaba gonderilmistir.");
+            System.out.println(RED+"Mevcut bakiyeniz: "+this.getBalance());
         }
         else
-            System.out.println("Bu işlem için yetersiz bakiyeniz var. Lutfen yeterli bakiyeye ulastiginizda tekrar deneyin.");
+            System.out.println(RED+"Bu işlem için yetersiz bakiyeniz var.");
 
     }
 

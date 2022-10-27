@@ -4,6 +4,8 @@ import atmproject.Exceptions.AmountLessThanZero;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
+import javax.swing.text.AttributeSet;
+import javax.swing.text.Style;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -31,7 +33,7 @@ public final class Main {
                 selectAdminOptions(userInputForAdminMenu,LoggedInAdmin);
             }
             else{
-                System.out.println("Lutfen sifrenizi veya kullanici adinizi dogru girdiginizden emin olun.\n" +
+                System.out.println(colors.RED+"Lutfen sifrenizi veya kullanici adinizi dogru girdiginizden emin olun.\n" +
                         "Daha Sonra tekrar deneyin.");
                 System.exit(0);
             }
@@ -45,7 +47,7 @@ public final class Main {
                 selectCustomerOptions(userInputForCustomerMenu,LoggedInCustomer);
             }
             else {
-                System.out.println("Lutfen sifrenizi veya kullanici adinizi dogru girdiginizden emin olun.\n" +
+                System.out.println(colors.RED+"Lutfen sifrenizi veya kullanici adinizi dogru girdiginizden emin olun.\n" +
                         "Daha Sonra tekrar deneyin.");
                 System.exit(0);
             }
@@ -53,13 +55,13 @@ public final class Main {
 
     }
     public static void  displayInitialScreen(){
-        System.out.println("Nasil giris yapmak istersiniz?\n" +
-                            "1-) Admin\n" +
-                            "2-) Customer");
+        System.out.println(colors.PURPLE+"Nasil giris yapmak istersiniz?\n" +
+                           colors.CYAN+ "1-) Admin\n" +
+                            colors.CYAN+"2-) Customer");
     }
 
     public static void displayAdminMenu(){
-        System.out.println("ADMIN MENU\n" +
+        System.out.println(colors.CYAN+"ADMIN MENU\n" +
                 "==============================================\n" +
                 "1-)Musteri olustur\n" +
                 "2-)Musteri Goruntule\n" +
@@ -73,13 +75,13 @@ public final class Main {
 
     public static void displayCustomerMenu(){
 
-        System.out.println( "0-) Para görüntüle\n" +
+        System.out.println( colors.CYAN+"0-) Para görüntüle\n" +
                 "1-) Para yatir\n" +
                 "2-) Para cek\n" +
                 "3-) Havale yap\n" +
                 "4-) EFT yap\n" +
                 "5-) Cikis yap");
-        System.out.println("Ne yapmak istersiniz:");
+        System.out.println(colors.YELLOW+"Ne yapmak istersiniz:");
     }
 
     public static void selectAdminOptions(int option,Admin admin){
@@ -88,19 +90,19 @@ public final class Main {
                 musteriOlustur(admin);
                 break;
             case 2:
-                System.out.println("Musteri sil ozelligi daha eklenmedi.");
+                System.out.println(colors.RED+"Musteri sil ozelligi daha eklenmedi.");
                 break;
             case 3:
-                System.out.println("Musteri Bul ozelligi daha eklenmedi.");
+                System.out.println(colors.RED+"Musteri Bul ozelligi daha eklenmedi.");
                 break;
             case 4:
-                System.out.println("Musterileri listele ozelligi daha eklenmedi.");
+                System.out.println(colors.RED+"Musterileri listele ozelligi daha eklenmedi.");
                 break;
             case 5:
-                System.out.println("Bu ozellik daha eklenmedi.");
+                System.out.println(colors.RED+"Bu ozellik daha eklenmedi.");
                 break;
             default:
-                System.out.println("Boyle bir secenek bulunmamaktadir.");
+                System.out.println(colors.RED+"Boyle bir secenek bulunmamaktadir.");
         }
     }
 
@@ -125,29 +127,29 @@ public final class Main {
                 cikis();
                 break;
             default:
-                System.out.println("Boyle bir secenek bulunmamaktadir.");
+                System.out.println(colors.RED+"Boyle bir secenek bulunmamaktadir.");
         }
     }
 
     public static void musteriOlustur(Admin admin){
         Scanner scanner =new Scanner(System.in);
-        System.out.println("MÜŞTERİ OLUŞTURMA EKRANI");
-        System.out.println("====================================================================\n");
-        System.out.print("Username: ");
+        System.out.println(colors.BLUE_BACKGROUND+"MÜŞTERİ OLUŞTURMA EKRANI");
+        System.out.println(colors.BLUE_BACKGROUND+"====================================================================\n");
+        System.out.print(colors.PURPLE+"Username: ");
         String username=scanner.next();
-        System.out.print("Password: ");
+        System.out.print(colors.PURPLE+"Password: ");
         String password=scanner.next();
-        System.out.print("İsim: ");
+        System.out.print(colors.PURPLE+"İsim: ");
         String name=scanner.next();
-        System.out.print("Soyisim: ");
+        System.out.print(colors.PURPLE+"Soyisim: ");
         String surname=scanner.next();
-        System.out.print("Dogum Tarihi: ");
+        System.out.print(colors.PURPLE+"Dogum Tarihi: ");
         String DOB= scanner.next();
-        System.out.print("Cep Telefonu Numarasi: ");
+        System.out.print(colors.PURPLE+"Cep Telefonu Numarasi: ");
         String phoneNumber=scanner.next();
-        System.out.print("Email Adresi: ");
+        System.out.print(colors.PURPLE+"Email Adresi: ");
         String email=scanner.next();
-        System.out.print("Baslangic bakiyesi: ");
+        System.out.print(colors.PURPLE+"Baslangic bakiyesi: ");
         double initialBalance=Double.parseDouble(scanner.next());
         admin.createCustomer(username,password,name,surname,DOB,phoneNumber,email,initialBalance);
     }
@@ -157,9 +159,9 @@ public final class Main {
         int attemp=3;
         Person result=null;
         while(attemp>0) {
-            System.out.print("username: ");
+            System.out.print(colors.PURPLE+"username: ");
             String username = newInput().trim();
-            System.out.print("password: ");
+            System.out.print(colors.PURPLE+"password: ");
             String password = newInput().trim();
             List<String> person= FileClass.fetchRecordFromCSVFile(DBname,username,password);
             if(person.size()!=0){
@@ -171,9 +173,9 @@ public final class Main {
             }
             attemp--;
             if(attemp!=0)
-                System.out.println(attemp+" giris hakkin kaldi.");
+                System.out.println(colors.YELLOW+attemp+colors.RED+" giris hakkin kaldi.");
             else
-                System.out.println("3 kere kullanici adinizi veya sifrenizi yanlis girdiniz ve" +
+                System.out.println(colors.RED+"3 kere kullanici adinizi veya sifrenizi yanlis girdiniz ve" +
                         "Hesabiniz bloke edildi." +
                         "Lutfen en yakin subeye gidiniz.");
         }
@@ -192,11 +194,11 @@ public final class Main {
             notSelected=false;
         }
         catch (InputMismatchException e){
-            System.out.println("Girisiniz bir rakam degildir.");
+            System.out.println(colors.RED+"Girisiniz bir rakam degildir.");
         }
         if((selectedOption<0 || selectedOption>6) || notSelected){
             notSelected=true;
-            System.out.println("Luffen 0 ile 6 arasinda bir rakam seciniz: ");
+            System.out.println(colors.RED+"Luffen 0 ile 6 arasinda bir rakam seciniz: ");
         }
         }
         return selectedOption;
@@ -214,7 +216,7 @@ public final class Main {
             while ((values = csvReader.readNext()) != null) {
                 mostRecentBalance=values[values.length-2]+" TL";
             }
-            System.out.println("Bakiyeniz: "+mostRecentBalance);
+            System.out.println(colors.GREEN+"Bakiyeniz: "+mostRecentBalance);
         } catch (CsvValidationException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
@@ -226,7 +228,7 @@ public final class Main {
 
     }
     public static void paraYatir(Customer customer){
-        System.out.println("Lutfen yatiracaginiz para miktarini giriniz: ");
+        System.out.println(colors.PURPLE+"Lutfen yatiracaginiz para miktarini giriniz: ");
 
         try {
             double amount = Double.parseDouble(newInput());
@@ -235,64 +237,64 @@ public final class Main {
             customer.addDeposit(amount,customer);
         }
         catch(AmountLessThanZero e){
-            System.out.println("Yatirilacak miktar 0 dan az olamaz. Lutfen Tekrar Deneyin.");
+            System.out.println(colors.RED+"Yatirilacak miktar 0 dan az olamaz. Lutfen Tekrar Deneyin.");
 
         }
         catch (InputMismatchException e){
-            System.out.println("Lutfen rakam giriniz:");
+            System.out.println(colors.RED+"Lutfen rakam giriniz:");
         }
     }
     public static void paraCek(Customer customer){
-        System.out.println("Lutfen cekeceginiz miktari giriniz: ");
+        System.out.println(colors.PURPLE+"Lutfen cekeceginiz miktari giriniz: ");
         try {
             double amount=Double.parseDouble(newInput());
             if(amount<0)
                 throw new AmountLessThanZero();
-            customer.withdraw(amount);
+            customer.withdraw(amount,customer);
         }
         catch (AmountLessThanZero e){
-            System.out.println("Yatirilacak miktar 0 dan az olamaz. Lutfen Tekrar Deneyin.");
+            System.out.println(colors.RED+"Yatirilacak miktar 0 dan az olamaz. Lutfen Tekrar Deneyin.");
         }
         catch (NumberFormatException e){
-            System.out.println("Lutfen rakam giriniz:");
+            System.out.println(colors.RED+"Lutfen rakam giriniz:");
         }
     }
     public static void havaleYap(Customer customer){
-        System.out.println("Lutfen havale yapacaginiz hesabin IBAN numarasini giriniz: ");
+        System.out.println(colors.PURPLE+"Lutfen havale yapacaginiz hesabin IBAN numarasini giriniz: ");
         String IBAN=newInput();
-        System.out.println("Lutfen havale edeceginiz para miktarini giriniz: ");
+        System.out.println(colors.PURPLE+"Lutfen havale edeceginiz para miktarini giriniz: ");
         try {
             double amount=Double.parseDouble(newInput());
             if(amount<0)
                 throw new AmountLessThanZero();
-            customer.transfer(amount,IBAN);
+            customer.transfer(customer,amount,IBAN);
         }
         catch (AmountLessThanZero e){
-            System.out.println("Yatirilacak miktar 0 dan az olamaz. Lutfen Tekrar Deneyin.");
+            System.out.println(colors.RED+"Yatirilacak miktar 0 dan az olamaz. Lutfen Tekrar Deneyin.");
         }
         catch (NumberFormatException e){
-            System.out.println("Lutfen rakam giriniz:");
+            System.out.println(colors.RED+"Lutfen rakam giriniz:");
         }
     }
     public static void EFTYap(Customer customer){
-        System.out.println("Lutfen havale yapacaginiz hesabin IBAN numarasini giriniz: ");
+        System.out.println(colors.PURPLE+"Lutfen havale yapacaginiz hesabin IBAN numarasini giriniz: ");
         String IBAN=newInput();
-        System.out.println("Lutfen havale edeceginiz para miktarini giriniz: ");
+        System.out.println(colors.PURPLE+"Lutfen havale edeceginiz para miktarini giriniz: ");
         try {
             double amount=Double.parseDouble(newInput());
             if(amount<0)
                 throw new AmountLessThanZero();
-            customer.doEFT(amount,IBAN);
+            customer.doEFT(customer,amount,IBAN);
         }
         catch (AmountLessThanZero e){
-            System.out.println("Yatirilacak miktar 0 dan az olamaz. Lutfen Tekrar Deneyin.");
+            System.out.println(colors.RED+"Yatirilacak miktar 0 dan az olamaz. Lutfen Tekrar Deneyin.");
         }
         catch (NumberFormatException e){
-            System.out.println("Lutfen rakam giriniz:");
+            System.out.println(colors.RED+"Lutfen rakam giriniz:");
         }
     }
     public static void cikis(){
-        System.out.println("Cikis yapiliyor...");
+        System.out.println(colors.BLUE_BACKGROUND+"Cikis yapiliyor...");
         try {
             Thread.sleep(1000);
             System.out.println("Logged Out.");
@@ -301,11 +303,6 @@ public final class Main {
         }
         System.exit(0);
     }
-    public static String createTransactionLine(String transactionDesc, double amount,double balance){
-        String line=String.format("%20s | %5.2f | %.2f | %s",transactionDesc,amount,balance,createdDate());
-
-        return line;
-    }
     public static String createdDate(){
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
@@ -313,6 +310,5 @@ public final class Main {
 
         return StringFormatDate;
     }
-
 
 }

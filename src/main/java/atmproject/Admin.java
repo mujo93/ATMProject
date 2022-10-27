@@ -75,7 +75,7 @@ public class Admin extends Person {
             // false if file is already exists
             if (file.createNewFile()) {
             } else {
-                System.out.println("File already exists.");
+                System.out.println(colors.CYAN+"File already exists.");
             }
             try (FileWriter writer = new FileWriter(file,true)) {
 
