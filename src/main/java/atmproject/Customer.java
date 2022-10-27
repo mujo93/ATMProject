@@ -1,6 +1,9 @@
 package atmproject;
 
 import atmproject.Exceptions.AmountLessThanZero;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvValidationException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +13,10 @@ import org.springframework.data.annotation.Id;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Formatter;
@@ -58,7 +65,7 @@ public class Customer extends Person{
     }
 
     public String getFullName(){
-        return this.Name+" "+this.Surname;
+        return this.Name+"_"+this.Surname;
     }
 
     public void displayBalance(){
@@ -66,12 +73,14 @@ public class Customer extends Person{
         System.out.println(balance);
     }
 
-    public void  addDeposit (double amount){
+    public void  addDeposit (double amount, Customer customer){
         try{
             if(amount<0)
                 throw new AmountLessThanZero();
-            double balance=this.getBalance()+amount;
+            double balance=findBalance(customer)+amount;
             this.setBalance(balance);
+            String action="adding deposits.";
+            appendRecordToTransactionFile(customer,action,amount);
             System.out.println("Isleminiz basariyla gerceklestirildi.");
             System.out.println("Mevcut bakiyeniz: "+this.getBalance());
         }
@@ -115,5 +124,38 @@ public class Customer extends Person{
             System.out.println("Bu işlem için yetersiz bakiyeniz var. Lutfen yeterli bakiyeye ulastiginizda tekrar deneyin.");
 
     }
+
+    public Double findBalance(Customer customer){
+        String mostRecentBalance="";
+        String filePath=Paths.CustomerTransactionsFolder_PATH+customer.getName()+"_"+customer.getSurname()+".csv";
+        try (CSVReader csvReader = new CSVReader(new FileReader(filePath));) {
+            String[] values = null;
+            while ((values = csvReader.readNext()) != null) {
+                mostRecentBalance=values[values.length-2];
+            }
+            System.out.println("Bakiyeniz: "+mostRecentBalance);
+        } catch (CsvValidationException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return Double.parseDouble(mostRecentBalance);
+    }
+
+    public void appendRecordToTransactionFile(Customer customer,String action,double amount){
+        String path=Paths.CustomerTransactionsFolder_PATH+customer.getFullName()+".csv";
+            try (FileWriter writer = new FileWriter(path,true)) {
+                String[] transaction= new String[]{customer.getFullName(), action,
+                        String.valueOf(amount), String.valueOf(customer.getBalance()),
+                        AtmUtility.getCurrentDate()};
+                CSVWriter csvWriter = new CSVWriter(writer);
+                csvWriter.writeNext(transaction);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+    }
+
+
 }
 

@@ -24,9 +24,8 @@ public final class FileClass {
                 System.out.println(nextRecord[1]);
                 System.out.println(nextRecord[2]);
                 if(nextRecord[1].matches(username))
-                    if(nextRecord[2].matches(password)){
+                    if(nextRecord[2].matches(password))
                         record.addAll(nextRecordlist);
-                    }
             }
         }
         catch (Exception e) {

@@ -77,7 +77,7 @@ public class Admin extends Person {
             } else {
                 System.out.println("File already exists.");
             }
-            try (FileWriter writer = new FileWriter(file)) {
+            try (FileWriter writer = new FileWriter(file,true)) {
 
                 String[] firstTransaction= new String[]{newCustomer.getName()+" "+ newCustomer.getSurname(), "The bank account has been opened","0",
                         String.format(String.valueOf(newCustomer.getBalance())),AtmUtility.getCurrentDate()};

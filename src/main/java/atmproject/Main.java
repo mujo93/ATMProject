@@ -232,7 +232,7 @@ public final class Main {
             double amount = Double.parseDouble(newInput());
             if(amount<0)
                 throw new AmountLessThanZero();
-            customer.addDeposit(amount);
+            customer.addDeposit(amount,customer);
         }
         catch(AmountLessThanZero e){
             System.out.println("Yatirilacak miktar 0 dan az olamaz. Lutfen Tekrar Deneyin.");
