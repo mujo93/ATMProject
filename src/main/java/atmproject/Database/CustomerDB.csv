@@ -1,4 +1,3 @@
-Id,Username,Name,Surname,Phone Number,Email Address,Date Of Birth,Account Number,Balance
-"e6063604-0a78-4006-9921-48d9d20b73da","mucahit","Mucahit","Bayrak","17/11/1993","05527774366","mchdbyrk@gmail.com",,
-"43c1151d-0b1d-42ea-8cfc-7f7362f5ad28","memo","Mehmet","Penah","05/15/2000","0532","905","195228486","23.0"
-"46d18dd1-6264-45fb-b9a7-a0bfb7b56ab3","Adem","Adem","Yenice","1956","052356789","ademyenice@gmail.com","979751425","1000.0"
+Id,Username,Password,Name,Surname,Phone Number,Email Address,Date Of Birth,Account Number,Balance
+e6063604-0a78-4006-9921-48d9d20b73da,mucahit,1234,"Mucahit""",Bayrak,17/11/1993,05527774366,mchdbyrk@gmail.com,2324523543,1000
+"b3e9aaa2-ecd8-4a5b-9ac9-0668a381ee7d","salih","12345","Salih","Tunc","17/11/2002","05527774234","salihtunc@gmail.com","904484293","1000.0"

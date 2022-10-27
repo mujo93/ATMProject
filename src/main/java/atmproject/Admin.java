@@ -51,7 +51,7 @@ public class Admin extends Person {
             File file = new File(filePath);
             try (FileWriter writer = new FileWriter(file,true)) {
 
-                String[] customerRecord= new String[]{nCus.getId(), nCus.getUsername(),nCus.getName(),
+                String[] customerRecord= new String[]{nCus.getId(), nCus.getUsername(),nCus.getPassword(),nCus.getName(),
                         nCus.getSurname(), nCus.getPhoneNumber(),nCus.getEmailAddress(),nCus.getDateOfBirth(),
                         nCus.getAccountNumber(), String.valueOf(nCus.getBalance())};
 
@@ -106,18 +106,5 @@ public class Admin extends Person {
         Customer customer= (Customer) Customer.builder().build();
         return customer;
     }
-
-    public static void main(String[] args) throws IOException {
-       String path="/Users/mucahitbayrak/IdeaProjects/airties-mujo93/src/main/java/" +
-                "atmproject/Database/CustomerDB.csv";
-        System.out.println(System.getProperty("user.home"));
-        saveCustomer(path,new Customer("123142","Mucahit","12343","Mucahit","Bayrak",
-                "05527774366","mchdbyrk@gmail.com","17/11/1993","1000",1000));
-
-    }
-
-
-
-
 
 }

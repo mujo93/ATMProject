@@ -115,6 +115,5 @@ public class Customer extends Person{
             System.out.println("Bu işlem için yetersiz bakiyeniz var. Lutfen yeterli bakiyeye ulastiginizda tekrar deneyin.");
 
     }
-
 }
 

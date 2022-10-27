@@ -31,6 +31,8 @@ import java.util.UUID;
 
         return StringFormatDate;
     }
+
+
     public static void sendMail(){
         //this.EmailAddress'in  arguman olarak kullanildigi bazi konfigurasyonlar
     }

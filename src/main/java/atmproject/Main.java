@@ -1,14 +1,15 @@
 package atmproject;
 
 import atmproject.Exceptions.AmountLessThanZero;
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public final class Main {
 
@@ -87,13 +88,13 @@ public final class Main {
                 musteriOlustur(admin);
                 break;
             case 2:
-                System.out.println("Bu ozellik daha eklenmedi.");
+                System.out.println("Musteri sil ozelligi daha eklenmedi.");
                 break;
             case 3:
-                System.out.println("Bu ozellik daha eklenmedi.");
+                System.out.println("Musteri Bul ozelligi daha eklenmedi.");
                 break;
             case 4:
-                System.out.println("Bu ozellik daha eklenmedi.");
+                System.out.println("Musterileri listele ozelligi daha eklenmedi.");
                 break;
             case 5:
                 System.out.println("Bu ozellik daha eklenmedi.");
@@ -103,7 +104,7 @@ public final class Main {
         }
     }
 
-    public static void selectCustomerOptions(int option,Customer customer){
+    public static void selectCustomerOptions(int option,Customer customer) throws FileNotFoundException {
         switch (option) {
             case 0:
                 paraGoruntule(customer);
@@ -204,11 +205,22 @@ public final class Main {
         Scanner scanner=new Scanner(System.in);
         return scanner.next();
     }
-    public static void paraGoruntule(Customer customer){
+    public static void paraGoruntule(Customer customer) throws FileNotFoundException {
+        String filePath=Paths.CustomerTransactionsFolder_PATH+customer.getName()+"_"+customer.getSurname()+".csv";
+        try (CSVReader csvReader = new CSVReader(new FileReader(filePath));) {
+            String[] values = null;
 
-        System.out.println("Hesabinizda bulununan Bakiyeniz:");
-        System.out.println(customer.getBalance()+" TL");
-        double balance= customer.getBalance();
+            String mostRecentBalance="";
+            while ((values = csvReader.readNext()) != null) {
+                mostRecentBalance=values[values.length-2]+" TL";
+            }
+            System.out.println("Bakiyeniz: "+mostRecentBalance);
+        } catch (CsvValidationException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         //String transactionSummary=
        // FileClass.appendLineToFile(transactionSummary, customer.getFullName());
 
