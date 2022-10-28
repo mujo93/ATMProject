@@ -1,21 +1,25 @@
 package atmproject;
 
+import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvException;
+import com.opencsv.exceptions.CsvValidationException;
 import lombok.*;
 
 import javax.management.relation.Role;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 
+import static atmproject.colors.GREEN;
+
 @AllArgsConstructor
 @Getter
 @Setter
 public class Admin extends Person {
+    public static final String SUCCES_MESSAGE = GREEN+"Isleminiz Basariya Gerceklestirildi";
     public Admin(String username,String password,
                  String name, String surname, String PhoneNumber,
                  String emailAddress, String dateOfBirth) {
@@ -93,18 +97,53 @@ public class Admin extends Person {
     }
 
 
-    public void deleteCustomer(String id){
-        //for
+    public void deleteCustomer(String username) throws IOException, CsvException {
 
+        //1- load File into a map
+       Map<String,Customer> customerMap= loadDataFromCustomerDBFileIntoMap("CustomerDB");
+        //2- delete the row by username key in the map
+        customerMap.remove(username);
+        //3- refill the CustomerDB with the updated map
+        loadDataFromCustomerMapIntoCustomerDBFile(customerMap);
+        System.out.println(Customer.SUCCES_MESSAGE);
     }
 
     public void updateCustomer(String id){
 
     }
 
-    public Customer GetCustomer(String id){
-        Customer customer= (Customer) Customer.builder().build();
-        return customer;
+    public Customer GetCustomer(String username){
+        return new Customer();
     }
 
+    public static Map<String,Customer> loadDataFromCustomerDBFileIntoMap(String DBName) throws IOException, CsvException {
+        String customerDB=Paths.DBFolder_PATH+DBName+".csv";
+        HashMap<String,Customer> customerDBMap= new HashMap<>();
+        FileReader reader=new FileReader(customerDB);
+        CSVReader csvReader=new CSVReader(reader);
+        csvReader.skip(1);
+        String [] record=null;
+        while((record = csvReader.readNext()) != null){
+            // username is kept in second column of the row
+            customerDBMap.put(record[1],new Customer(record[0],record[1],record[2],record[3],record[4],
+                    record[5],record[6],record[7],record[8],Double.parseDouble(record[9])));
+        }
+        return customerDBMap;
+    }
+
+    public static void loadDataFromCustomerMapIntoCustomerDBFile(Map<String,Customer> customerMap) throws IOException {
+
+        File file = new File(Paths.DBFolder_PATH+"CustomerDB.csv");
+        try (FileWriter writer = new FileWriter(file)) {
+            CSVWriter csvWriter=new CSVWriter(writer);
+            String[] columns= new String[]{"Id","Username","Password", "Name","Surname",
+                    "Phone Number","Email Address","Date Of Birth", "Account Number", "Initial Balance"};
+            csvWriter.writeNext(columns);
+            customerMap.forEach((u, c) -> {
+                csvWriter.writeNext( new String[]{c.getId(),c.getUsername(),c.getPassword(),c.getName(),
+                        c.getSurname(), c.getPhoneNumber(),c.getEmailAddress(),c.getDateOfBirth(),
+                        c.getAccountNumber(),String.valueOf(c.getBalance())});
+            });
+        }
+    }
 }

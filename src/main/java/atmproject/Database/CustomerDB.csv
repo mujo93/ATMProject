@@ -1,3 +1,3 @@
-Id,Username,Password,Name,Surname,Phone Number,Email Address,Date Of Birth,Account Number,Balance
-e6063604-0a78-4006-9921-48d9d20b73da,mucahit,1234,"Mucahit""",Bayrak,17/11/1993,05527774366,mchdbyrk@gmail.com,2324523543,1000
+"Id","Username","Password","Name","Surname","Phone Number","Email Address","Date Of Birth","Account Number","Initial Balance"
+"18f46632-a28a-42d2-ab69-35dc3db05358","Tarik","123456","Tarik","Solmaz","10/05/1978","05438762343","tarik@solmaz@gmail.com","789494200","10000.0"
 "b3e9aaa2-ecd8-4a5b-9ac9-0668a381ee7d","salih","12345","Salih","Tunc","17/11/2002","05527774234","salihtunc@gmail.com","904484293","1000.0"

@@ -23,21 +23,14 @@ import java.util.Formatter;
 import java.util.Random;
 import java.util.UUID;
 
+import static atmproject.colors.GREEN;
+import static atmproject.colors.RED;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 public class Customer extends Person{
-
-    public static final String RESET = "\u001B[0m";
-    public static final String BLACK = "\u001B[30m";
-    public static final String RED = "\u001B[31m";
-    public static final String GREEN = "\u001B[32m";
-    public static final String YELLOW = "\u001B[33m";
-    public static final String BLUE = "\u001B[34m";
-    public static final String PURPLE = "\u001B[35m";
-    public static final String CYAN = "\u001B[36m";
-    public static final String WHITE = "\u001B[37m";
     public static final String SUCCES_MESSAGE = GREEN+"Isleminiz Basariya Gerceklestirildi";
 
     private double Balance;
@@ -93,7 +86,7 @@ public class Customer extends Person{
             String action="adding deposits.";
             appendRecordToTransactionFile(customer,action,amount);
             System.out.println(SUCCES_MESSAGE);
-            System.out.println("Mevcut bakiyeniz: "+this.getBalance());
+            System.out.println(colors.GREEN+"Mevcut bakiyeniz: "+this.getBalance());
         }
         catch (AmountLessThanZero e){
             System.out.println(e.getMessage());
@@ -107,24 +100,24 @@ public class Customer extends Person{
             String action="withdrawing deposits.";
             appendRecordToTransactionFile(customer,action,amount);
             System.out.println(SUCCES_MESSAGE);
-            System.out.println(RED+"Mevcut bakiyeniz: "+this.getBalance());
+            System.out.println(colors.RED+"Mevcut bakiyeniz: "+this.getBalance());
         }
         else
-            System.out.println(RED+"Bu işlem için yetersiz bakiyeniz var.");
+            System.out.println(colors.RED+"Bu işlem için yetersiz bakiyeniz var.");
     }
 
     public void transfer(Customer customer,double amount, String IBAN){
         double balance=findBalance(customer);
         if(amount<balance){
             this.setBalance(balance-amount);
-            String action="withdrawing deposits.";
+            String action= colors.GREEN+"transferred deposits to"+IBAN;
             appendRecordToTransactionFile(customer,action,amount);
             System.out.println(SUCCES_MESSAGE);
-            System.out.println(YELLOW+amount+"TL "+IBAN+" no`lu hesaba gonderilmistir.");
-            System.out.println(RED+"Mevcut bakiyeniz: "+this.getBalance());
+            System.out.println(colors.YELLOW+amount+"TL "+IBAN+" no`lu hesaba gonderilmistir.");
+            System.out.println(colors.GREEN+"Mevcut bakiyeniz: "+this.getBalance());
         }
         else
-            System.out.println(RED+"Bu işlem için yetersiz bakiyeniz var.");
+            System.out.println(colors.RED+"Bu işlem için yetersiz bakiyeniz var.");
     }
 
     public void doEFT(Customer customer,double amount, String IBAN){
@@ -134,11 +127,11 @@ public class Customer extends Person{
             String action="withdrawing deposits.";
             appendRecordToTransactionFile(customer,action,amount);
             System.out.println(SUCCES_MESSAGE);
-            System.out.println(YELLOW+amount+"TL "+IBAN+" no`lu hesaba gonderilmistir.");
-            System.out.println(RED+"Mevcut bakiyeniz: "+this.getBalance());
+            System.out.println(colors.YELLOW+amount+"TL "+IBAN+" no`lu hesaba gonderilmistir.");
+            System.out.println(colors.RED+"Mevcut bakiyeniz: "+this.getBalance());
         }
         else
-            System.out.println(RED+"Bu işlem için yetersiz bakiyeniz var.");
+            System.out.println(colors.RED+"Bu işlem için yetersiz bakiyeniz var.");
 
     }
 
@@ -150,7 +143,7 @@ public class Customer extends Person{
             while ((values = csvReader.readNext()) != null) {
                 mostRecentBalance=values[values.length-2];
             }
-            System.out.println("Bakiyeniz: "+mostRecentBalance);
+            System.out.println(colors.GREEN+"Bakiyeniz: "+mostRecentBalance);
         } catch (CsvValidationException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {

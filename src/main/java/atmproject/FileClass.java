@@ -21,10 +21,8 @@ public final class FileClass {
             // we are going to read data line by line
             while ((nextRecord = csvReader.readNext()) != null) {
                List<String> nextRecordlist = Arrays.asList(nextRecord);
-                System.out.println(nextRecord[1]);
-                System.out.println(nextRecord[2]);
-                if(nextRecord[1].matches(username))
-                    if(nextRecord[2].matches(password))
+                if(nextRecord[1].matches(username.trim()))
+                    if(nextRecord[2].matches(password.trim()))
                         record.addAll(nextRecordlist);
             }
         }
@@ -37,14 +35,11 @@ public final class FileClass {
         File file = new File(path);
         return file;
     }
-
     private static FileWriter getFileWriter(File file) throws IOException {
         FileWriter fileWriter=new FileWriter(file);
 
         return fileWriter;
     }
-
-
 }
 
 

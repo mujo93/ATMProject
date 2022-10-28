@@ -2,6 +2,7 @@ package atmproject;
 
 import atmproject.Exceptions.AmountLessThanZero;
 import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvValidationException;
 
 import javax.swing.text.AttributeSet;
@@ -20,7 +21,7 @@ public final class Main {
     public Main(){
         scanner=new Scanner(System.in);
     }
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws IOException, CsvException {
 
         displayInitialScreen();
         int userInputForInitialScreen=getUserInput();
@@ -84,7 +85,7 @@ public final class Main {
         System.out.println(colors.YELLOW+"Ne yapmak istersiniz:");
     }
 
-    public static void selectAdminOptions(int option,Admin admin){
+    public static void selectAdminOptions(int option,Admin admin) throws IOException, CsvException {
         switch (option) {
             case 1:
                 musteriOlustur(admin);
@@ -93,7 +94,7 @@ public final class Main {
                 System.out.println(colors.RED+"Musteri sil ozelligi daha eklenmedi.");
                 break;
             case 3:
-                System.out.println(colors.RED+"Musteri Bul ozelligi daha eklenmedi.");
+                musteriSil(admin);
                 break;
             case 4:
                 System.out.println(colors.RED+"Musterileri listele ozelligi daha eklenmedi.");
@@ -133,8 +134,8 @@ public final class Main {
 
     public static void musteriOlustur(Admin admin){
         Scanner scanner =new Scanner(System.in);
-        System.out.println(colors.BLUE_BACKGROUND+"MÜŞTERİ OLUŞTURMA EKRANI");
-        System.out.println(colors.BLUE_BACKGROUND+"====================================================================\n");
+        System.out.println(colors.BLUE+"MÜŞTERİ OLUŞTURMA EKRANI");
+        System.out.println(colors.BLUE+"====================================================================\n");
         System.out.print(colors.PURPLE+"Username: ");
         String username=scanner.next();
         System.out.print(colors.PURPLE+"Password: ");
@@ -151,9 +152,17 @@ public final class Main {
         String email=scanner.next();
         System.out.print(colors.PURPLE+"Baslangic bakiyesi: ");
         double initialBalance=Double.parseDouble(scanner.next());
+        scanner.close();
         admin.createCustomer(username,password,name,surname,DOB,phoneNumber,email,initialBalance);
     }
     //Case sensitive
+    public static void musteriSil(Admin admin) throws IOException, CsvException {
+        Scanner scanner =new Scanner(System.in);
+        System.out.println(colors.BLUE+"Lutfen sileceginiz musterinin kullanici adini giriniz: ");
+        String username= scanner.next();
+        admin.deleteCustomer(username.trim());
+        scanner.close();
+    }
     public static Person login(int DBType) throws FileNotFoundException {
         String DBname= DBType == 1 ? "AdminDB.csv" : "CustomerDB.csv";
         int attemp=3;
@@ -173,7 +182,7 @@ public final class Main {
             }
             attemp--;
             if(attemp!=0)
-                System.out.println(colors.YELLOW+attemp+colors.RED+" giris hakkin kaldi.");
+                System.out.println(colors.RED+attemp+" giris hakkin kaldi.");
             else
                 System.out.println(colors.RED+"3 kere kullanici adinizi veya sifrenizi yanlis girdiniz ve" +
                         "Hesabiniz bloke edildi." +
