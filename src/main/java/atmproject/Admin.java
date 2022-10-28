@@ -109,11 +109,24 @@ public class Admin extends Person {
     }
 
     public void updateCustomer(String id){
-
+        /// will be added in the next scrum
+        System.out.println("This function has not been implemented yet.");
     }
 
-    public Customer GetCustomer(String username){
-        return new Customer();
+    public Customer getCustomer(String username) throws IOException, CsvValidationException {
+        File file = new File(Paths.DBFolder_PATH+"CustomerDB.csv");
+        FileReader fileReader=new FileReader(file);
+        CSVReader csvReader=new CSVReader(fileReader);
+        Customer customer=new Customer();
+
+        String[] cus=null;
+        while((cus= csvReader.readNext())!=null){
+            if(cus[1].equals(username)){
+                customer=new Customer(cus[0],cus[1],cus[2],cus[3],cus[4],cus[5],cus[6],cus[7],cus[8],Double.parseDouble(cus[9]));
+                break;
+            }
+        }
+        return customer;
     }
 
     public static Map<String,Customer> loadDataFromCustomerDBFileIntoMap(String DBName) throws IOException, CsvException {

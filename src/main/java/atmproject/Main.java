@@ -4,14 +4,9 @@ import atmproject.Exceptions.AmountLessThanZero;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvValidationException;
-
-import javax.swing.text.AttributeSet;
-import javax.swing.text.Style;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public final class Main {
@@ -68,7 +63,8 @@ public final class Main {
                 "2-)Musteri Goruntule\n" +
                 "3-)Musteri Sil\n" +
                 "4-)Musteri duzenle\n" +
-                "5-)Butun musterileri goruntule\n\n" +
+                "5-)Butun musterileri goruntule\n" +
+                "6-)Cikis\n" +
                 "Lutfen bir islem seciniz.\n");
 
 
@@ -91,7 +87,7 @@ public final class Main {
                 musteriOlustur(admin);
                 break;
             case 2:
-                System.out.println(colors.RED+"Musteri sil ozelligi daha eklenmedi.");
+                musteriGoruntule(admin);
                 break;
             case 3:
                 musteriSil(admin);
@@ -101,6 +97,9 @@ public final class Main {
                 break;
             case 5:
                 System.out.println(colors.RED+"Bu ozellik daha eklenmedi.");
+                break;
+            case 6:
+                cikis();
                 break;
             default:
                 System.out.println(colors.RED+"Boyle bir secenek bulunmamaktadir.");
@@ -163,7 +162,22 @@ public final class Main {
         admin.deleteCustomer(username.trim());
         scanner.close();
     }
-    public static Person login(int DBType) throws FileNotFoundException {
+
+    public static void musteriGoruntule(Admin admin) throws IOException, CsvException {
+        Scanner scanner =new Scanner(System.in);
+        System.out.println(colors.BLUE+"Lutfen goruntuluyeceginiz musterinin kullanici adini giriniz: ");
+        String username= scanner.next().trim();
+        scanner.close();
+        Customer customer=admin.getCustomer(username);
+        if(customer.getId().length()==0)
+            System.out.println(colors.RED+"Aradiginiz musterinin kaydi bulunamadi");
+        else {
+            System.out.println(colors.RED+"Id Username\t\t\t Password\t Name\t Surname\t Data Of Birth\t Phone Number\t Email Address\t Account Number\t Initial Balance ");
+            System.out.println(colors.BLUE+customer.toString());
+        }
+    }
+
+    public static Person login(int DBType) throws IOException {
         String DBname= DBType == 1 ? "AdminDB.csv" : "CustomerDB.csv";
         int attemp=3;
         Person result=null;
@@ -312,12 +326,4 @@ public final class Main {
         }
         System.exit(0);
     }
-    public static String createdDate(){
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        Date date = new Date();
-        String StringFormatDate =formatter.format(date);
-
-        return StringFormatDate;
-    }
-
 }

@@ -8,31 +8,17 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.UniqueElements;
-import org.springframework.data.annotation.Id;
 
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotBlank;
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Formatter;
-import java.util.Random;
-import java.util.UUID;
-
-import static atmproject.colors.GREEN;
-import static atmproject.colors.RED;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 public class Customer extends Person{
-    public static final String SUCCES_MESSAGE = GREEN+"Isleminiz Basariya Gerceklestirildi";
-
+    public static final String SUCCES_MESSAGE = colors.GREEN+"Isleminiz Basariya Gerceklestirildi";
     private double Balance;
     private String AccountNumber;
 
@@ -70,11 +56,6 @@ public class Customer extends Person{
 
     public String getFullName(){
         return this.Name+"_"+this.Surname;
-    }
-
-    public void displayBalance(){
-        double balance = this.getBalance();
-        System.out.println(balance);
     }
 
     public void  addDeposit (double amount, Customer customer){
@@ -164,6 +145,12 @@ public class Customer extends Person{
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
+    }
+
+    public String toString(){
+        return String.format("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s",this.Id,this.Username,
+                this.Password,this.Name,this.Surname,this.PhoneNumber,this.EmailAddress,
+                this.DateOfBirth,this.AccountNumber,String.valueOf(this.Balance));
     }
 
 

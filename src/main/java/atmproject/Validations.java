@@ -1,7 +1,8 @@
 package atmproject;
 
 import java.util.regex.Pattern;
-
+//Improvement should be done here!
+// These should be implemented to ensure getting accurate date from the user.
 public class Validations {
 /*
     public boolean isUsernameValid(String input){
